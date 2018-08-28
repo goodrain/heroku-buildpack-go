@@ -38,27 +38,19 @@ handleDefaultPkgSpec() {
                 warn "To install a different package spec add a comment in the following form to your \`go.mod\` file:"
                 warn "// +heroku install ./cmd/..."
                 warn ""
-                warn "For more details see: https://devcenter.heroku.com/articles/go-apps-with-modules#build-configuration"
-                warn ""
             ;;
             dep)
                 warn "To install a different package spec set 'metadata.heroku.pkg-spec' in 'Gopkg.toml'"
                 warn ""
-                warn "For more details see: https://devcenter.heroku.com/articles/go-apps-with-dep#build-configuration"
-                warn ""
             ;;
             govendor)
                 warn "To install a different package spec set 'heroku.install' in 'vendor/vendor.json'"
-                warn ""
-                warn "For more details see: https://devcenter.heroku.com/articles/go-apps-with-govendor#build-configuration"
                 warn ""
             ;;
             glide)
                 warn "To install a different package spec for the next build run:"
                 warn ""
                 warn "'heroku config:set GO_INSTALL_PACKAGE_SPEC=\"<pkg spec>\"'"
-                warn ""
-                warn "For more details see: https://devcenter.heroku.com/articles/go-dependencies-via-glide"
                 warn ""
             ;;
         esac
@@ -115,10 +107,8 @@ reportVer() {
         warn ""
         warn "Go modules are an experimental feature of go1.11"
         warn "Any issues building code that uses Go modules should be"
-        warn "reported via: https://github.com/heroku/heroku-buildpack-go/issues"
         warn ""
         warn "Additional documentation for using Go modules with this buildpack"
-        warn "can be found here: https://github.com/heroku/heroku-buildpack-go#go-module-specifics"
         warn ""
         if ! <"${DataJSON}" jq  -e '.Go.SupportsModuleExperiment | any(. == "'${ver}'")' &> /dev/null; then
             err "You are using ${ver}, which does not support the Go modules experiment"
@@ -148,7 +138,6 @@ reportVer() {
         *)
             warn ""
             warn "Deprecated or unsupported version of go ($ver)"
-            warn "See https://devcenter.heroku.com/articles/go-support#go-versions for supported version information."
             warn ""
         ;;
     esac

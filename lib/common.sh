@@ -17,13 +17,13 @@ glideYAML="${build}/glide.yaml"
 goMOD="${build}/go.mod"
 
 steptxt="----->"
-YELLOW='\033[1;33m'
-RED='\033[1;31m'
-NC='\033[0m' # No Color
+YELLOW=''
+RED=''
+NC='' # No Color
 CURL="curl -s -L --retry 15 --retry-delay 2" # retry for up to 30 seconds
 
 if [ -z "${GO_BUCKET_URL}" ]; then
-    BucketURL="https://heroku-golang-prod.s3.amazonaws.com"
+    BucketURL="http://lang.goodrain.me/go/"
 else
     BucketURL="${GO_BUCKET_URL}"
 fi
@@ -34,11 +34,11 @@ GO_LINKER_VALUE=${SOURCE_VERSION}
 
 
 warn() {
-    echo -e "${YELLOW} !!    $@${NC}"
+    echo -e "warn: $@"
 }
 
 err() {
-    echo -e >&2 "${RED} !!    $@${NC}"
+    echo -e >&2 "err: $@"
 }
 
 step() {
@@ -83,7 +83,6 @@ downloadFile() {
         err "it likely won't be able to obtain a copy and validate the SHA."
         err ""
         err "To find out more info about this error please visit:"
-        err "    https://devcenter.heroku.com/articles/unknown-go-buildack-files"
         err ""
         exit 1
     fi
@@ -280,7 +279,6 @@ determineTool() {
             err "The 'metadata.heroku[\"root-package\"]' field is not specified in 'Gopkg.toml'."
             err "root-package must be set to the root package name used by your repository."
             err ""
-            err "For more details see: https://devcenter.heroku.com/articles/go-apps-with-dep#build-configuration"
             exit 1
         fi
         ver=${GOVERSION:-$(<${depTOML} tq '$.metadata.heroku["go-version"]')}
@@ -290,8 +288,6 @@ determineTool() {
             warn "The 'metadata.heroku[\"go-version\"]' field is not specified in 'Gopkg.toml'."
             warn ""
             warn "Defaulting to ${ver}"
-            warn ""
-            warn "For more details see: https://devcenter.heroku.com/articles/go-apps-with-dep#build-configuration"
             warn ""
         fi
     elif [ -f "${godepsJSON}" ]; then
@@ -318,7 +314,6 @@ determineTool() {
             err "Recent versions of govendor add this field automatically, please upgrade"
             err "and re-run 'govendor init'."
             err ""
-            err "For more details see: https://devcenter.heroku.com/articles/go-apps-with-govendor#build-configuration"
             exit 1
         fi
         ver=${GOVERSION:-$(<${vendorJSON} jq -r .heroku.goVersion)}
@@ -329,8 +324,6 @@ determineTool() {
             warn ""
             warn "Defaulting to ${ver}"
             warn ""
-            warn "For more details see: https://devcenter.heroku.com/articles/go-apps-with-govendor#build-configuration"
-            warn ""
         fi
     elif [ -f "${glideYAML}" ]; then
         TOOL="glide"
@@ -339,8 +332,7 @@ determineTool() {
         TOOL="gb"
         setGoVersionFromEnvironment
     else
-        err "Go modules, dep, Godep, GB or govendor are required. For instructions:"
-        err "https://devcenter.heroku.com/articles/go-support"
+        err "Go modules, dep, Godep, GB or govendor are required."
         exit 1
     fi
 }
