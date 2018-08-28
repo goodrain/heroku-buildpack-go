@@ -82,8 +82,6 @@ downloadFile() {
         err "it uses. Because the buildpack doesn't know about the file"
         err "it likely won't be able to obtain a copy and validate the SHA."
         err ""
-        err "To find out more info about this error please visit:"
-        err ""
         exit 1
     fi
 
@@ -95,6 +93,7 @@ downloadFile() {
     mkdir -p "${targetDir}"
     pushd "${targetDir}" &> /dev/null
         start "Fetching ${localName}"
+            echo "Download: ${BucketURL}/${fileName}"
             ${CURL} -O "${BucketURL}/${fileName}"
             if [ "${fileName}" != "${localName}" ]; then
                 mv "${fileName}" "${localName}"

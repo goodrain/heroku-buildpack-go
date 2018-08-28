@@ -14,6 +14,8 @@ tgz_fn="$V.linux-amd64.tar.gz"
 tgz_url="$BASEURL/$tgz_fn"
 sha256_url="$tgz_url.sha256"
 
+echo "$tag_fn's sha256: $sha256_url"
+
 if ! sha256_content="$(curl -s -f "$sha256_url")"; then
     echo "error: adding $V: couldn't fetch $sha256_url" >&2
     exit 1
