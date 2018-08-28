@@ -23,7 +23,7 @@ NC='' # No Color
 CURL="curl -s -L --retry 15 --retry-delay 2" # retry for up to 30 seconds
 
 if [ -z "${GO_BUCKET_URL}" ]; then
-    BucketURL="http://lang.goodrain.me/go/"
+    BucketURL="http://lang.goodrain.me/go"
 else
     BucketURL="${GO_BUCKET_URL}"
 fi
@@ -32,6 +32,9 @@ TOOL=""
 # Default to $SOURCE_VERSION environment variable: https://devcenter.heroku.com/articles/buildpack-api#bin-compile
 GO_LINKER_VALUE=${SOURCE_VERSION}
 
+info() {
+    echo -e "info: $@"
+}
 
 warn() {
     echo -e "warn: $@"
@@ -93,7 +96,7 @@ downloadFile() {
     mkdir -p "${targetDir}"
     pushd "${targetDir}" &> /dev/null
         start "Fetching ${localName}"
-            echo "Download: ${BucketURL}/${fileName}"
+            info "Download: ${BucketURL}/${fileName}"
             ${CURL} -O "${BucketURL}/${fileName}"
             if [ "${fileName}" != "${localName}" ]; then
                 mv "${fileName}" "${localName}"
