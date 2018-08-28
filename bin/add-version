@@ -2,7 +2,7 @@
 
 set -e
 
-BASEURL="https://storage.googleapis.com/golang"
+BASEURL="http://lang.goodrain.me/go/golang"
 V="$1"
 
 if [ -z "$V" ]; then
