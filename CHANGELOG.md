@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+## v95 (2018-11-05)
+* Add go1.11.2, use it as the default for go1.11
+* Add go1.10.5, use it as the default for go1.10
+
+## v94 (2018-10-19)
+
+* Remove the need for Procfiles in simple situations for go modules
+* Add go1.11.1, use it as the default for go1.11
+* Promote go1.11.1 as the default install
+* Deprecate go1.9.X
+
+## v93 (2018-08-30)
+* Be clearer about what version of go is chosen if none is specified. Addresses #266.
+* Handle version stuff in the right place for go modules.
+
+## v92 (2018-08-27)
+* Add go1.11 and mark it as supported
+* Add go1.10.4 and make it the default, supported version
+
 ## v91 (2018-08-24)
 * Add go1.11rc2 (unsupported) for experimenters
 * Add basic support for go modules (unsupported) for experimenters
